@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hello</h1>
+    <div class="content">
+        <form method="post" action="/add" enctype="multipart/form-data">
+            <input name="id" placeholder="id" /> <br>
+            <input name="name" placeholder="name" /> <br>
+            <input name="type" placeholder="type" /> <br>
+            <input name="semester" placeholder="semester" /> <br>
+            <input type="file" name="image" accept="image/*" /> <br>
+            <input type="submit" />
+        </form>
+        <table>
+            <caption>Danh sach mon hoc</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Semester</th>
+                    <th>image</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach((element)=> { %>
+                    <tr>
+                        <td>
+                            <%= element.id %>
+                        </td>
+                        <td>
+                            <%= element.name %>
+                        </td>
+                        <td>
+                            <%= element.type %>
+                        </td>
+                        <td>
+                            <%= element.semester %>
+                        </td>
+                        <td>
+                            <img src="<%= element.image %>" width="30" height="30"/>
+                        </td>
+                        <td><input type="checkbox" id="<%= element.id %>" class="check" /></td>
+                    </tr>
+
+                    <% }); %>
+            </tbody>
+        </table>
+        <form method="post" action="/delete">
+            <input type="hidden" name="checkedBoxs" id="checkedArr"/>
+            <input type="submit" value="xoá" onclick="deleteItem()"/>
+        </form>
+        
+    </div>
+    <script>
+        const deleteItem = () => {
+            const arrDetele = [];
+            const checkboxs = document.querySelectorAll(".check");
+            checkboxs.forEach((check, index) => {
+                if (check.checked) {
+                    arrDetele.push(check.getAttribute("id"));
+                }
+
+            });
+            document.getElementById("checkedArr").value = JSON.stringify(arrDetele);
+        }
+    </script>
+</body>
+
+</html>
